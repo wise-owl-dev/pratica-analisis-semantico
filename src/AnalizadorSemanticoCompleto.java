@@ -74,13 +74,13 @@ public class AnalizadorSemanticoCompleto {
         System.out.println("═══════════════════════════════════════════════════════════");
         System.out.println("                      MENÚ PRINCIPAL");
         System.out.println("═══════════════════════════════════════════════════════════");
-        System.out.println("1. 🌳 Parte 1: Construcción de Árboles de Expresiones");
-        System.out.println("2. 🔍 Parte 2: Comprobación de Tipos");
-        System.out.println("3. 📚 Parte 3: Pila Semántica");
-        System.out.println("4. 📋 Parte 4: Tabla de Símbolos");
-        System.out.println("5. ⚠️  Parte 5: Manejo de Errores Semánticos");
-        System.out.println("6. 🎯 Demostración Completa (Todas las partes)");
-        System.out.println("0. ❌ Salir");
+        System.out.println("1.Parte 1: Construcción de Árboles de Expresiones");
+        System.out.println("2.Parte 2: Comprobación de Tipos");
+        System.out.println("3.Parte 3: Pila Semántica");
+        System.out.println("4.Parte 4: Tabla de Símbolos");
+        System.out.println("5.Parte 5: Manejo de Errores Semánticos");
+        System.out.println("6.Demostración Completa (Todas las partes)");
+        System.out.println("0.Salir");
         System.out.println("═══════════════════════════════════════════════════════════");
     }
 
@@ -89,7 +89,7 @@ public class AnalizadorSemanticoCompleto {
      */
     private static void ejecutarParte1() {
         System.out.println("\n" + "=".repeat(60));
-        System.out.println("🌳 PARTE 1: CONSTRUCCIÓN DE ÁRBOLES DE EXPRESIONES");
+        System.out.println("PARTE 1: CONSTRUCCIÓN DE ÁRBOLES DE EXPRESIONES");
         System.out.println("=".repeat(60));
 
         // Ejecutar el ejemplo principal
@@ -122,7 +122,7 @@ public class AnalizadorSemanticoCompleto {
      */
     private static void ejecutarParte2() {
         System.out.println("\n" + "=".repeat(60));
-        System.out.println("🔍 PARTE 2: COMPROBACIÓN DE TIPOS");
+        System.out.println("PARTE 2: COMPROBACIÓN DE TIPOS");
         System.out.println("=".repeat(60));
 
         ComprobadorTipos.main(new String[] {});
@@ -152,7 +152,7 @@ public class AnalizadorSemanticoCompleto {
      */
     private static void ejecutarParte3() {
         System.out.println("\n" + "=".repeat(60));
-        System.out.println("📚 PARTE 3: PILA SEMÁNTICA");
+        System.out.println("PARTE 3: PILA SEMÁNTICA");
         System.out.println("=".repeat(60));
 
         PilaSemantica.main(new String[] {});
@@ -174,7 +174,7 @@ public class AnalizadorSemanticoCompleto {
      */
     private static void ejecutarParte4() {
         System.out.println("\n" + "=".repeat(60));
-        System.out.println("📋 PARTE 4: TABLA DE SÍMBOLOS");
+        System.out.println("PARTE 4: TABLA DE SÍMBOLOS");
         System.out.println("=".repeat(60));
 
         TablaSimbolos.main(new String[] {});
@@ -202,7 +202,7 @@ public class AnalizadorSemanticoCompleto {
      */
     private static void ejecutarParte5() {
         System.out.println("\n" + "=".repeat(60));
-        System.out.println("⚠️ PARTE 5: MANEJO DE ERRORES SEMÁNTICOS");
+        System.out.println("PARTE 5: MANEJO DE ERRORES SEMÁNTICOS");
         System.out.println("=".repeat(60));
 
         DetectorErroresSemanticos.main(new String[] {});
@@ -232,7 +232,7 @@ public class AnalizadorSemanticoCompleto {
      */
     private static void ejecutarDemostracionCompleta() {
         System.out.println("\n" + "=".repeat(60));
-        System.out.println("🎯 DEMOSTRACIÓN COMPLETA - ANÁLISIS SEMÁNTICO INTEGRADO");
+        System.out.println(" DEMOSTRACIÓN COMPLETA - ANÁLISIS SEMÁNTICO INTEGRADO");
         System.out.println("=".repeat(60));
 
         System.out.println("Simulando el análisis completo de un programa simple:");
