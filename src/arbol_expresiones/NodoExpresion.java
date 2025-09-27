@@ -5,7 +5,7 @@ package arbol_expresiones;
  * Implementación de un árbol de expresiones para (3 + 5) * (10 - 2)
  */
 
-class NodoExpresion {
+public class NodoExpresion {
     private String valor;
     private NodoExpresion izquierdo;
     private NodoExpresion derecho;

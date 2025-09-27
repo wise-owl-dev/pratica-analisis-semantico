@@ -1,15 +1,13 @@
 package comprobacion_de_tipos;
 
 import java.util.*;
+import tipo_dato.TipoDato;
 
 /**
  * Parte 2: Comprobación de Tipos
  * Sistema para detectar errores de tipos en expresiones
+ * Actualizado para usar TipoDato del paquete tipo_dato
  */
-
-enum TipoDato {
-    INT, FLOAT, STRING, ERROR
-}
 
 public class ComprobadorTipos {
     private Map<String, Variable> variables;
@@ -22,29 +20,13 @@ public class ComprobadorTipos {
      * Declara una variable con su tipo y valor
      */
     public void declararVariable(String nombre, TipoDato tipo, Object valor) throws ErrorSemantico {
-        // Verificar que el valor sea compatible con el tipo
-        if (!esCompatible(tipo, valor)) {
+        // Verificar que el valor sea compatible con el tipo usando TipoDato
+        if (!tipo.validarValor(valor)) {
             throw new ErrorSemantico("Error: el valor " + valor + " no es compatible con el tipo " + tipo);
         }
 
         variables.put(nombre, new Variable(nombre, tipo, valor));
         System.out.println("Variable declarada: " + variables.get(nombre));
-    }
-
-    /**
-     * Verifica si un valor es compatible con un tipo
-     */
-    private boolean esCompatible(TipoDato tipo, Object valor) {
-        switch (tipo) {
-            case INT:
-                return valor instanceof Integer;
-            case FLOAT:
-                return valor instanceof Float || valor instanceof Double;
-            case STRING:
-                return valor instanceof String;
-            default:
-                return false;
-        }
     }
 
     /**
@@ -63,77 +45,20 @@ public class ComprobadorTipos {
     public TipoDato verificarOperacion(String operador, TipoDato tipo1, TipoDato tipo2) throws ErrorSemantico {
         System.out.println("Verificando operación: " + tipo1 + " " + operador + " " + tipo2);
 
-        switch (operador) {
-            case "+":
-                return verificarSuma(tipo1, tipo2);
-            case "-":
-            case "*":
-            case "/":
-                return verificarAritmetica(tipo1, tipo2);
-            case "==":
-            case "!=":
-                return TipoDato.INT; // boolean representado como int
-            case "<":
-            case ">":
-            case "<=":
-            case ">=":
-                return verificarComparacion(tipo1, tipo2);
-            default:
-                throw new ErrorSemantico("Error: operador '" + operador + "' no reconocido");
-        }
-    }
-
-    /**
-     * Verifica operaciones de suma (permite concatenación de strings)
-     */
-    private TipoDato verificarSuma(TipoDato tipo1, TipoDato tipo2) throws ErrorSemantico {
-        if (tipo1 == TipoDato.STRING || tipo2 == TipoDato.STRING) {
-            if (tipo1 == TipoDato.STRING && tipo2 == TipoDato.STRING) {
-                return TipoDato.STRING; // Concatenación válida
-            } else {
-                throw new ErrorSemantico("Error: no se puede sumar " + tipo1 + " con " + tipo2);
-            }
+        // Usar el método esCompatibleCon de TipoDato
+        if (!tipo1.esCompatibleCon(tipo2, operador)) {
+            throw new ErrorSemantico("Error: no se puede realizar la operación '" + operador +
+                    "' entre " + tipo1 + " y " + tipo2);
         }
 
-        // Operaciones numéricas
-        if ((tipo1 == TipoDato.INT || tipo1 == TipoDato.FLOAT) &&
-                (tipo2 == TipoDato.INT || tipo2 == TipoDato.FLOAT)) {
-            if (tipo1 == TipoDato.FLOAT || tipo2 == TipoDato.FLOAT) {
-                return TipoDato.FLOAT;
-            } else {
-                return TipoDato.INT;
-            }
+        // Usar el método tipoResultado de TipoDato
+        TipoDato resultado = tipo1.tipoResultado(tipo2, operador);
+        if (resultado == TipoDato.ERROR) {
+            throw new ErrorSemantico("Error: operación '" + operador + "' inválida entre " +
+                    tipo1 + " y " + tipo2);
         }
 
-        throw new ErrorSemantico("Error: no se puede sumar " + tipo1 + " con " + tipo2);
-    }
-
-    /**
-     * Verifica operaciones aritméticas básicas
-     */
-    private TipoDato verificarAritmetica(TipoDato tipo1, TipoDato tipo2) throws ErrorSemantico {
-        if ((tipo1 == TipoDato.INT || tipo1 == TipoDato.FLOAT) &&
-                (tipo2 == TipoDato.INT || tipo2 == TipoDato.FLOAT)) {
-            if (tipo1 == TipoDato.FLOAT || tipo2 == TipoDato.FLOAT) {
-                return TipoDato.FLOAT;
-            } else {
-                return TipoDato.INT;
-            }
-        }
-
-        throw new ErrorSemantico("Error: operación aritmética inválida entre " + tipo1 + " y " + tipo2);
-    }
-
-    /**
-     * Verifica operaciones de comparación
-     */
-    private TipoDato verificarComparacion(TipoDato tipo1, TipoDato tipo2) throws ErrorSemantico {
-        if ((tipo1 == TipoDato.INT || tipo1 == TipoDato.FLOAT) &&
-                (tipo2 == TipoDato.INT || tipo2 == TipoDato.FLOAT)) {
-            return TipoDato.INT; // boolean como int
-        }
-
-        throw new ErrorSemantico("Error: no se pueden comparar " + tipo1 + " y " + tipo2);
+        return resultado;
     }
 
     /**
@@ -169,6 +94,37 @@ public class ComprobadorTipos {
         }
     }
 
+    /**
+     * Evalúa una expresión con valores literales
+     */
+    public void evaluarExpresionConLiterales(TipoDato tipo1, Object valor1, String operador,
+            TipoDato tipo2, Object valor2) {
+        try {
+            System.out.println("\n--- Evaluando: " + valor1 + "(" + tipo1 + ") " + operador +
+                    " " + valor2 + "(" + tipo2 + ") ---");
+
+            TipoDato tipoResultado = verificarOperacion(operador, tipo1, tipo2);
+            System.out.println("✓ Expresión válida. Tipo resultado: " + tipoResultado);
+
+        } catch (ErrorSemantico e) {
+            System.err.println("✗ " + e.getMessage());
+        }
+    }
+
+    /**
+     * Obtiene todas las variables declaradas
+     */
+    public Map<String, Variable> obtenerVariables() {
+        return new HashMap<>(variables);
+    }
+
+    /**
+     * Verifica si una variable existe
+     */
+    public boolean existeVariable(String nombre) {
+        return variables.containsKey(nombre);
+    }
+
     public static void main(String[] args) {
         System.out.println("=== PARTE 2: COMPROBACIÓN DE TIPOS ===");
         System.out.println();
@@ -180,7 +136,7 @@ public class ComprobadorTipos {
             System.out.println("Declarando variables:");
             checker.declararVariable("a", TipoDato.INT, 5);
             checker.declararVariable("b", TipoDato.STRING, "hola");
-            checker.declararVariable("c", TipoDato.FLOAT, 3.14);
+            checker.declararVariable("c", TipoDato.FLOAT, 3.14f);
             checker.declararVariable("d", TipoDato.INT, 10);
 
             System.out.println("\n=== EJEMPLOS DE VERIFICACIÓN ===");
@@ -206,6 +162,12 @@ public class ComprobadorTipos {
             checker.simularPrint("a");
             checker.simularPrint("b");
             checker.simularPrint("w"); // Error: variable no declarada
+
+            // Ejemplos con literales
+            System.out.println("\n=== EJEMPLOS CON LITERALES ===");
+            checker.evaluarExpresionConLiterales(TipoDato.INT, 5, "+", TipoDato.STRING, "hola");
+            checker.evaluarExpresionConLiterales(TipoDato.FLOAT, 3.14f, "*", TipoDato.INT, 2);
+            checker.evaluarExpresionConLiterales(TipoDato.STRING, "Hello", "+", TipoDato.STRING, "World");
 
         } catch (ErrorSemantico e) {
             System.err.println("Error: " + e.getMessage());

@@ -1,10 +1,12 @@
 package comprobacion_de_tipos;
 
-/**
- * Clase Variable
- * Representa una variable en el sistema de análisis semántico
- */
+import tipo_dato.TipoDato;
 
+/**
+ * Clase Variable actualizada
+ * Representa una variable en el sistema de análisis semántico
+ * Compatible con la enumeración TipoDato del paquete tipo_dato
+ */
 public class Variable {
     private String nombre;
     private TipoDato tipo;
@@ -61,7 +63,7 @@ public class Variable {
 
     // Setters
     public void setValor(Object valor) {
-        // Validar que el valor sea compatible con el tipo
+        // Validar que el valor sea compatible con el tipo usando TipoDato
         if (valor != null && !tipo.validarValor(valor)) {
             throw new IllegalArgumentException("Valor incompatible con el tipo " + tipo);
         }
@@ -118,14 +120,14 @@ public class Variable {
     }
 
     /**
-     * Calcula el tamaño en memoria de la variable
+     * Calcula el tamaño en memoria de la variable usando TipoDato
      */
     public int calcularTamaño() {
         return tipo.calcularTamaño(valor);
     }
 
     /**
-     * Verifica si la variable es numérica
+     * Verifica si la variable es numérica usando TipoDato
      */
     public boolean esNumerica() {
         return tipo.esNumerico();
